@@ -3,5 +3,7 @@
 	<classpathentry kind="src" path="src/main/java"/>
 	<classpathentry kind="src" path="src/main/resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/jams"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/jasa"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>
