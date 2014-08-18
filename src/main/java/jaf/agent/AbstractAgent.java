@@ -2,6 +2,7 @@ package jaf.agent;
 
 import jams.message.Message;
 import jams.message.ReceiverID;
+import jams.message.bus.Bus;
 
 public abstract class AbstractAgent implements Agent{
 
@@ -10,6 +11,7 @@ public abstract class AbstractAgent implements Agent{
 	public static final String EVENT_NOTIFICATION = "eventNotification";
 	public static final String EVENT_SUBSCRIPTION = "eventSubscription";
 
+	private Bus bus;
 	private ReceiverID id;	
 	private LifeCycle lifeCycle;
 	
@@ -20,8 +22,8 @@ public abstract class AbstractAgent implements Agent{
 
 	@Override
 	public ReceiverID getId() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return id;
 	}
 	
 	public LifeCycle getLifeCycle() {
@@ -32,8 +34,16 @@ public abstract class AbstractAgent implements Agent{
 		this.lifeCycle = lifeCycle;
 	}
 
+	public Bus getBus() {
+		return bus;
+	}
+	
+	public void setBus(Bus bus) {
+		this.bus = bus;
+	}
+	
 	@Override
-	public void receiveMesssage(Message message) {
+	public void receiveMessage(Message message) {
 			
 		String semantica = message.getBody().getSemantica();
 		

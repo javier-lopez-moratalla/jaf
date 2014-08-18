@@ -10,6 +10,17 @@ import jasa.schedule.Task;
 public class AgentExecutionTask implements Task {
 
 	private Agent agent;
+	private Date nextExecution;
+	
+	public AgentExecutionTask(Agent agent) {
+		super();
+		this.agent = agent;
+		this.nextExecution = agent.getLifeCycle().getFirstExecution();
+	}
+
+	public Date getNextExecution() {
+		return nextExecution;
+	}
 	
 	@Override
 	public void execute(Schedule schedule) {
@@ -20,9 +31,9 @@ public class AgentExecutionTask implements Task {
 		long period = lifeCycle.getPeriod();
 		if(period != -1){
 			
-			Date now = new Date();
-			now.setTime(now.getTime()+period);
-			schedule.addTask(this, now);
+			nextExecution = new Date();
+			nextExecution.setTime(nextExecution.getTime()+period);
+			schedule.addTask(this, nextExecution);
 		}		
 	}
 }
