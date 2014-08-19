@@ -17,6 +17,8 @@ public abstract class AbstractAgent implements Agent{
 	
 	private ReceiverID directoryAgent;
 	
+	
+	
 	private Bus bus;
 	private ReceiverID id;	
 	private LifeCycle lifeCycle;
