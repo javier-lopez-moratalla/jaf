@@ -1,6 +1,7 @@
 package jaf.agent.directory;
 
 import jaf.agent.AgentAdapter;
+import jaf.agent.LifeCycle;
 import jaf.agent.message.event.EventBody;
 import jaf.agent.message.event.EventSubscriptionBody;
 import jams.message.Message;
@@ -21,7 +22,7 @@ public class SimpleAgentDirectory extends AgentAdapter implements AgentDirectory
 	
 	public SimpleAgentDirectory(ReceiverID id) {
 		super(id);
-		
+	
 		this.directory = new HashMap<String,Map<String,Set<ReceiverID>>>();
 		this.listenerMap = new HashMap<ReceiverID,List<ReceiverID>>();
 	}

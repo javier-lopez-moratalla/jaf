@@ -13,6 +13,7 @@ public class AgentEngine {
 
 	private Map<ReceiverID,AgentExecutionTask> agents;
 	
+	private Agent directoryAgent;
 	private Bus messageBus;
 	private Schedule schedule;
 	
@@ -29,18 +30,30 @@ public class AgentEngine {
 		this.schedule = schedule;
 	}
 	
+	public Agent getDirectoryAgent() {
+		return directoryAgent;
+	}
+	public void setDirectoryAgent(Agent directoryAgent) {
+		this.directoryAgent = directoryAgent;
+	}
+	
 	public AgentEngine() {
 	
 		this.agents = new HashMap<ReceiverID, AgentExecutionTask>();
 	}
+	
 	public void init(){
+	
+		addAgent(directoryAgent);
 		
 		Thread thread = new Thread(new ScheduleRunnable());
-		thread.setDaemon(true);		
+		thread.setDaemon(false);		
 		thread.start();		
 	}
 	
 	public void addAgent(Agent agent){
+		
+		agent.setDirectoryAgent(directoryAgent.getId());
 		
 		messageBus.addReceiver(agent.getId(), agent);		
 		AgentExecutionTask task = new AgentExecutionTask(agent);
