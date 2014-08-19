@@ -11,6 +11,12 @@ public abstract class AbstractAgent implements Agent{
 	public static final String EVENT_NOTIFICATION = "eventNotification";
 	public static final String EVENT_SUBSCRIPTION = "eventSubscription";
 
+	public static final String OK_RESPONSE = "okResponse";
+	public static final String ERROR_RESPONSE = "errorResponse";
+	public static final String UNKNOWN_RESPONSE = "unknownResponse";
+	
+	private ReceiverID directoryAgent;
+	
 	private Bus bus;
 	private ReceiverID id;	
 	private LifeCycle lifeCycle;
@@ -25,7 +31,15 @@ public abstract class AbstractAgent implements Agent{
 		
 		return id;
 	}
-	
+		
+	public ReceiverID getDirectoryAgent() {
+		return directoryAgent;
+	}
+
+	public void setDirectoryAgent(ReceiverID directoryAgent) {
+		this.directoryAgent = directoryAgent;
+	}
+
 	public LifeCycle getLifeCycle() {
 		return lifeCycle;
 	}
@@ -62,6 +76,13 @@ public abstract class AbstractAgent implements Agent{
 		else if(semantica.equals(EVENT_SUBSCRIPTION)){
 			
 			receiveEventSubscription(message);
+		}
+		else{
+			
+			Message response = bus.createMessage(id, message.getHeaders().getSender());
+			response.getBody().setSemantica(UNKNOWN_RESPONSE);
+			
+			bus.sendMessage(response);
 		}
 	}
 	
