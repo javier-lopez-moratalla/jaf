@@ -28,7 +28,7 @@ public class SimpleAgentDirectory extends AgentAdapter implements AgentDirectory
 	}
 	
 	@Override
-	protected void receiveActionRequest(Message message) {
+	protected Message receiveActionRequest(Message message) {
 	
 		RegisterAgentRequest request = (RegisterAgentRequest)message.getBody().getContent();
 		
@@ -39,6 +39,12 @@ public class SimpleAgentDirectory extends AgentAdapter implements AgentDirectory
 		else{
 			unregisterAgent(request.getCriteria(), message.getHeaders().getSender());
 		}
+		
+		Message response = getBus().createMessage(getId(), message.getHeaders().getSender());
+		response.getHeaders().setConversationId(message.getHeaders().getConversationId());
+		response.getBody().setSemantica(OK_RESPONSE);
+		
+		return response;
 	}
 	
 	private void notifyEvent(boolean register,ReceiverID agent,List<Criterion> criteria){
@@ -63,19 +69,22 @@ public class SimpleAgentDirectory extends AgentAdapter implements AgentDirectory
 	}
 
 	@Override
-	protected void receiveInformationRequest(Message message) {
+	protected Message receiveInformationRequest(Message message) {
 	
 		SearchCriteriaRequest criteria = (SearchCriteriaRequest)message.getBody().getContent();
 	
 		List<ReceiverID> searchResult = searchAgents(criteria.getCriteria());
 		Message response = buildResponse(message, searchResult);
 		
-		getBus().sendMessage(response);
+		return response;
 	}
 	
 	@Override
-	protected void receiveEventSubscription(Message message) {
+	protected Message receiveEventSubscription(Message message) {
 	
+		Message response = getBus().createMessage(getId(), message.getHeaders().getSender());
+		response.getHeaders().setConversationId(message.getHeaders().getConversationId());
+		
 		EventSubscriptionBody body = (EventSubscriptionBody)message.getBody().getContent();
 		
 		String event = body.getEventId();
@@ -92,20 +101,14 @@ public class SimpleAgentDirectory extends AgentAdapter implements AgentDirectory
 				listeners.remove(message.getHeaders().getSender());
 			}
 			
-			Message response = getBus().createMessage(getId(), message.getHeaders().getSender());
 			response.getBody().setSemantica(OK_RESPONSE);
-			response.getHeaders().setConversationId(message.getHeaders().getConversationId());
-			
-			getBus().sendMessage(response);
 		}
 		else{
-			
-			Message response = getBus().createMessage(getId(), message.getHeaders().getSender());
+						
 			response.getBody().setSemantica(UNKNOWN_RESPONSE);
-			response.getHeaders().setConversationId(message.getHeaders().getConversationId());
-			
-			getBus().sendMessage(response);
 		}
+		
+		return response;
 	}
 	
 	private List<ReceiverID> searchAgents(List<Criterion> criteria){

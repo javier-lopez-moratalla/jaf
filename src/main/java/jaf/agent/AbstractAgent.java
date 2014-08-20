@@ -17,8 +17,6 @@ public abstract class AbstractAgent implements Agent{
 	
 	private ReceiverID directoryAgent;
 	
-	
-	
 	private Bus bus;
 	private ReceiverID id;	
 	private LifeCycle lifeCycle;
@@ -60,36 +58,42 @@ public abstract class AbstractAgent implements Agent{
 	
 	@Override
 	public void receiveMessage(Message message) {
-			
+
+		Message response = null;
+		
 		String semantica = message.getBody().getSemantica();
 		
 		if(semantica.equals(ACTION_REQUEST)){
 			
-			receiveActionRequest(message);
+			response = receiveActionRequest(message);
 		}
 		else if(semantica.equals(INFORMATION_REQUEST)){
 			
-			receiveInformationRequest(message);
+			response = receiveInformationRequest(message);
 		}
 		else if(semantica.equals(EVENT_NOTIFICATION)){
 			
-			receiveEvent(message);
+			response = receiveEvent(message);
 		}
 		else if(semantica.equals(EVENT_SUBSCRIPTION)){
 			
-			receiveEventSubscription(message);
+			response = receiveEventSubscription(message);
 		}
 		else{
-			
-			Message response = bus.createMessage(id, message.getHeaders().getSender());
-			response.getBody().setSemantica(UNKNOWN_RESPONSE);
+						
+			response = bus.createMessage(id, message.getHeaders().getSender());
+			response.getHeaders().setConversationId(message.getHeaders().getConversationId());
+			response.getBody().setSemantica(UNKNOWN_RESPONSE);			
+		}
+		
+		if(response!=null){
 			
 			bus.sendMessage(response);
 		}
 	}
 	
-	protected abstract void receiveEvent(Message message);
-	protected abstract void receiveInformationRequest(Message message);
-	protected abstract void receiveActionRequest(Message message);
-	protected abstract void receiveEventSubscription(Message message);
+	protected abstract Message receiveEvent(Message message);
+	protected abstract Message receiveInformationRequest(Message message);
+	protected abstract Message receiveActionRequest(Message message);
+	protected abstract Message receiveEventSubscription(Message message);
 }

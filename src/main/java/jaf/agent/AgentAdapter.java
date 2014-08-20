@@ -13,15 +13,37 @@ public class AgentAdapter extends AbstractAgent {
 	public void execute() {}
 
 	@Override
-	protected void receiveEvent(Message message) {}
+	protected Message receiveEvent(Message message) {
+		
+		return generateUnknownResponse(message);
+	}
 
 	@Override
-	protected void receiveInformationRequest(Message message) {}
+	protected Message receiveInformationRequest(Message message) {
+		
+		return generateUnknownResponse(message);
+	}
 
 	@Override
-	protected void receiveActionRequest(Message message) {}
+	protected Message receiveActionRequest(Message message) {
+		
+		return generateUnknownResponse(message);
+	}
 
 	@Override
-	protected void receiveEventSubscription(Message message) {}
+	protected Message receiveEventSubscription(Message message) {
+		
+		return generateUnknownResponse(message);
+	}
+	
+	private Message generateUnknownResponse(Message message){
+		
+		Message response = getBus().createMessage(getId(), message.getHeaders().getSender());
+		
+		response.getHeaders().setConversationId(message.getHeaders().getConversationId());
+		response.getBody().setSemantica(UNKNOWN_RESPONSE);
+		
+		return response;		
+	}
 
 }
