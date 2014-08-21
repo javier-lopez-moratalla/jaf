@@ -7,12 +7,13 @@ import jams.message.bus.Bus;
 public abstract class AbstractAgent implements Agent{
 
 	public static final String ACTION_REQUEST = "actionRequest";
-	public static final String INFORMATION_REQUEST = "informationRequest";
+	public static final String INFORMATION_REQUEST = "informationRequest";	
 	public static final String EVENT_NOTIFICATION = "eventNotification";
 	public static final String EVENT_SUBSCRIPTION = "eventSubscription";
 
 	public static final String OK_RESPONSE = "okResponse";
 	public static final String ERROR_RESPONSE = "errorResponse";
+	public static final String INFORMATION_RESPONSE = "informationRequest";
 	public static final String UNKNOWN_RESPONSE = "unknownResponse";
 	
 	private ReceiverID directoryAgent;

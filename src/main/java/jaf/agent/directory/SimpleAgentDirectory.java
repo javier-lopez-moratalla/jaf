@@ -1,7 +1,6 @@
 package jaf.agent.directory;
 
 import jaf.agent.AgentAdapter;
-import jaf.agent.LifeCycle;
 import jaf.agent.message.event.EventBody;
 import jaf.agent.message.event.EventSubscriptionBody;
 import jams.message.Message;

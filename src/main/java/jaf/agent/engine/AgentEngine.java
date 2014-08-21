@@ -55,7 +55,9 @@ public class AgentEngine {
 		
 		agent.setDirectoryAgent(directoryAgent.getId());
 		
-		messageBus.addReceiver(agent.getId(), agent);		
+		messageBus.addReceiver(agent.getId(), agent);
+		agent.setBus(messageBus);
+		
 		AgentExecutionTask task = new AgentExecutionTask(agent);
 		agents.put(agent.getId(), task);
 		
