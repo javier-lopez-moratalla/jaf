@@ -13,7 +13,7 @@ public abstract class AbstractAgent implements Agent{
 
 	public static final String OK_RESPONSE = "okResponse";
 	public static final String ERROR_RESPONSE = "errorResponse";
-	public static final String INFORMATION_RESPONSE = "informationRequest";
+	public static final String INFORMATION_RESPONSE = "informationResponse";
 	public static final String UNKNOWN_RESPONSE = "unknownResponse";
 	
 	private ReceiverID directoryAgent;
