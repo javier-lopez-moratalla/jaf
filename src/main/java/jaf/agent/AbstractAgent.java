@@ -1,6 +1,7 @@
 package jaf.agent;
 
 import jams.message.Message;
+import jams.message.MessageUtils;
 import jams.message.ReceiverID;
 import jams.message.bus.Bus;
 
@@ -82,7 +83,7 @@ public abstract class AbstractAgent implements Agent{
 		}
 		else{
 						
-			response = bus.createMessage(id, message.getHeaders().getSender());
+			response = MessageUtils.createMessage(id, message.getHeaders().getSender());
 			response.getHeaders().setConversationId(message.getHeaders().getConversationId());
 			response.getBody().setSemantica(UNKNOWN_RESPONSE);			
 		}

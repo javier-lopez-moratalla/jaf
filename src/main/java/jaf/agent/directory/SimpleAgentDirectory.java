@@ -4,6 +4,7 @@ import jaf.agent.AgentAdapter;
 import jaf.agent.message.event.EventBody;
 import jaf.agent.message.event.EventSubscriptionBody;
 import jams.message.Message;
+import jams.message.MessageUtils;
 import jams.message.ReceiverID;
 
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ public class SimpleAgentDirectory extends AgentAdapter implements AgentDirectory
 			unregisterAgent(request.getCriteria(), message.getHeaders().getSender());
 		}
 		
-		Message response = getBus().createMessage(getId(), message.getHeaders().getSender());
+		Message response = MessageUtils.createMessage(getId(), message.getHeaders().getSender());
 		response.getHeaders().setConversationId(message.getHeaders().getConversationId());
 		response.getBody().setSemantica(OK_RESPONSE);
 		
@@ -51,7 +52,7 @@ public class SimpleAgentDirectory extends AgentAdapter implements AgentDirectory
 		List<ReceiverID> listeners = listenerMap.get(agent);
 		List<ReceiverID> receivers = new ArrayList<ReceiverID>(listeners);
 		
-		Message message = getBus().createMessage(getId(), receivers);
+		Message message = MessageUtils.createMessage(getId(), receivers);
 		message.getBody().setSemantica(EVENT_NOTIFICATION);
 		
 		EventBody body = new EventBody();
@@ -81,7 +82,7 @@ public class SimpleAgentDirectory extends AgentAdapter implements AgentDirectory
 	@Override
 	protected Message receiveEventSubscription(Message message) {
 	
-		Message response = getBus().createMessage(getId(), message.getHeaders().getSender());
+		Message response = MessageUtils.createMessage(getId(), message.getHeaders().getSender());
 		response.getHeaders().setConversationId(message.getHeaders().getConversationId());
 		
 		EventSubscriptionBody body = (EventSubscriptionBody)message.getBody().getContent();
@@ -135,7 +136,7 @@ public class SimpleAgentDirectory extends AgentAdapter implements AgentDirectory
 		List<ReceiverID> receivers = new LinkedList<ReceiverID>();
 		receivers.add(request.getHeaders().getSender());
 		
-		Message message = getBus().createMessage(getId(),receivers);
+		Message message = MessageUtils.createMessage(getId(),receivers);
 		message.getBody().setContent(searchResult);
 		message.getHeaders().setConversationId(request.getHeaders().getConversationId());
 				

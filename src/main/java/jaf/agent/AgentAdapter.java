@@ -1,6 +1,7 @@
 package jaf.agent;
 
 import jams.message.Message;
+import jams.message.MessageUtils;
 import jams.message.ReceiverID;
 
 public class AgentAdapter extends AbstractAgent {
@@ -38,7 +39,7 @@ public class AgentAdapter extends AbstractAgent {
 	
 	private Message generateUnknownResponse(Message message){
 		
-		Message response = getBus().createMessage(getId(), message.getHeaders().getSender());
+		Message response = MessageUtils.createMessage(getId(), message.getHeaders().getSender());
 		
 		response.getHeaders().setConversationId(message.getHeaders().getConversationId());
 		response.getBody().setSemantica(UNKNOWN_RESPONSE);
